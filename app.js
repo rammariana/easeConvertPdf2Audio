@@ -136,6 +136,7 @@ const pdfParse = require("pdf-parse");
 const fs = require("fs");
 const path = require("path");
 const say = require("say");
+const cors = require("cors");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
