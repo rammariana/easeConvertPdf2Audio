@@ -265,17 +265,17 @@ app.use(
   })
 );
 // Función para limpiar el texto
-function limpiarTexto(texto) {
-  // Reemplazar caracteres especiales con sus equivalentes en español
-  texto = texto.replace(/á/g, "a");
-  texto = texto.replace(/é/g, "e");
-  texto = texto.replace(/í/g, "i");
-  texto = texto.replace(/ó/g, "o");
-  texto = texto.replace(/ú/g, "u");
-  texto = texto.replace(/ñ/g, "ni");
+// function limpiarTexto(texto) {
+//   // Reemplazar caracteres especiales con sus equivalentes en español
+//   texto = texto.replace(/á/g, "a");
+//   texto = texto.replace(/é/g, "e");
+//   texto = texto.replace(/í/g, "i");
+//   texto = texto.replace(/ó/g, "o");
+//   texto = texto.replace(/ú/g, "u");
+//   texto = texto.replace(/ñ/g, "ni");
 
-  return texto;
-}
+//   return texto;
+// }
 
 // Endpoint 
 app.post("/text2audio", upload.single("archivo"), (req, res) => {
@@ -295,7 +295,7 @@ app.post("/text2audio", upload.single("archivo"), (req, res) => {
         // Texto extraído del PDF
         let text = pdfData.text;
         // Limpiar el texto
-        text = limpiarTexto(text);
+        // text = limpiarTexto(text);
 
         // Enviar el texto como respuesta 
         res.send(text);
