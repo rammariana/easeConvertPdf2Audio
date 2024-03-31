@@ -76,7 +76,19 @@ app.use(
     origin: "http://localhost:8080",
   })
 );
-
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:8080");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, OPTIONS, PUT, PATCH, DELETE"
+  );
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "X-Requested-With,content-type"
+  );
+  res.setHeader("Access-Control-Allow-Credentials", true);
+  next();
+});
 // Función para limpiar el texto
 function limpiarTexto(texto) {
   // Reemplazar caracteres especiales con sus equivalentes en español
