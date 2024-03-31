@@ -63,6 +63,7 @@ const multer = require("multer");
 const pdfParse = require("pdf-parse");
 const fs = require("fs");
 const say = require("say");
+const cors = require("cors");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -70,6 +71,11 @@ const PORT = process.env.PORT || 3000;
 const upload = multer({ dest: "uploads/" });
 
 app.use(express.json());
+app.use(
+  cors({
+    origin: "http://localhost:8080",
+  })
+);
 
 // Función para limpiar el texto
 function limpiarTexto(texto) {
