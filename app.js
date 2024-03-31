@@ -57,97 +57,7 @@
 // app.listen(PORT, () => {
 //   console.log(`Servidor escuchando en el puerto ${PORT}`);
 // });
-// FUNCIONA PERO NO DESCARGA
-const express = require("express");
-const multer = require("multer");
-const pdfParse = require("pdf-parse");
-const fs = require("fs");
-const say = require("say");
-const cors = require("cors");
-
-const app = express();
-const PORT = process.env.PORT || 3000;
-
-const upload = multer({ dest: "uploads/" });
-
-app.use(express.json());
-app.use(
-  cors({
-    origin: "http://localhost:8080",
-  })
-);
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:8080");
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, OPTIONS, PUT, PATCH, DELETE"
-  );
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "X-Requested-With,content-type"
-  );
-  res.setHeader("Access-Control-Allow-Credentials", true);
-  next();
-});
-// Función para limpiar el texto
-function limpiarTexto(texto) {
-  // Reemplazar caracteres especiales con sus equivalentes en español
-  texto = texto.replace(/á/g, "a");
-  texto = texto.replace(/é/g, "e");
-  texto = texto.replace(/í/g, "i");
-  texto = texto.replace(/ó/g, "o");
-  texto = texto.replace(/ú/g, "u");
-  texto = texto.replace(/ñ/g, "ni");
-  // Otros reemplazos necesarios...
-
-  return texto;
-}
-
-// Endpoint para manejar la carga de archivos
-app.post("/text2audio", upload.single("archivo"), (req, res) => {
-  const filePath = req.file.path; // Ruta del archivo cargado
-  console.log("Archivo cargado:", filePath);
-
-  // Leer el archivo PDF y extraer texto
-  fs.readFile(filePath, (err, data) => {
-    if (err) {
-      console.error("Error al leer el archivo:", err);
-      res.status(500).send("Error al leer el archivo");
-      return;
-    }
-
-    pdfParse(data)
-      .then(function (pdfData) {
-        // Texto extraído del PDF
-        let text = pdfData.text;
-        // console.log("Texto extraído:", text);
-
-        // Limpiar el texto
-        text = limpiarTexto(text);
-
-        // Convertir texto a audio utilizando say
-        say.speak(text, null, 1, (err) => {
-          if (err) {
-            console.error("Error al convertir texto a audio:", err);
-            res.status(500).send("Error al convertir texto a audio");
-            return;
-          }
-          console.log("¡Texto convertido a audio con éxito!");
-
-          // Enviar una respuesta de éxito
-          res.send("¡Texto convertido a audio con éxito!");
-        });
-      })
-      .catch(function (error) {
-        console.error("Error al extraer texto:", error);
-        res.status(500).send("Error al extraer texto del archivo");
-      });
-  });
-});
-
-app.listen(PORT, () => {
-  console.log(`Servidor escuchando en el puerto ${PORT}`);
-});
+//INTENTO DESCARGAR PERO EL SERVIDOR ME BLOQUEA O ALGO ASI :(
 // const express = require("express");
 // const multer = require("multer");
 // const pdfParse = require("pdf-parse");
@@ -241,3 +151,162 @@ app.listen(PORT, () => {
 // app.listen(PORT, () => {
 //   console.log(`Servidor escuchando en el puerto ${PORT}`);
 // });
+
+
+// FUNCIONA PERO NO DESCARGA
+// const express = require("express");
+// const multer = require("multer");
+// const pdfParse = require("pdf-parse");
+// const fs = require("fs");
+// const say = require("say");
+// const cors = require("cors");
+
+// const app = express();
+// const PORT = process.env.PORT || 3000;
+
+// const upload = multer({ dest: "uploads/" });
+
+// app.use(express.json());
+// app.use(
+//   cors({
+//     origin: "http://localhost:8080",
+//   })
+// );
+// app.use((req, res, next) => {
+//   res.setHeader("Access-Control-Allow-Origin", "http://localhost:8080");
+//   res.setHeader(
+//     "Access-Control-Allow-Methods",
+//     "GET, POST, OPTIONS, PUT, PATCH, DELETE"
+//   );
+//   res.setHeader(
+//     "Access-Control-Allow-Headers",
+//     "X-Requested-With,content-type"
+//   );
+//   res.setHeader("Access-Control-Allow-Credentials", true);
+//   next();
+// });
+// // Función para limpiar el texto
+// function limpiarTexto(texto) {
+//   // Reemplazar caracteres especiales con sus equivalentes en español
+//   texto = texto.replace(/á/g, "a");
+//   texto = texto.replace(/é/g, "e");
+//   texto = texto.replace(/í/g, "i");
+//   texto = texto.replace(/ó/g, "o");
+//   texto = texto.replace(/ú/g, "u");
+//   texto = texto.replace(/ñ/g, "ni");
+//   // Otros reemplazos necesarios...
+
+//   return texto;
+// }
+
+// // Endpoint para manejar la carga de archivos
+// app.post("/text2audio", upload.single("archivo"), (req, res) => {
+//   const filePath = req.file.path; // Ruta del archivo cargado
+//   console.log("Archivo cargado:", filePath);
+
+//   // Leer el archivo PDF y extraer texto
+//   fs.readFile(filePath, (err, data) => {
+//     if (err) {
+//       console.error("Error al leer el archivo:", err);
+//       res.status(500).send("Error al leer el archivo");
+//       return;
+//     }
+
+//     pdfParse(data)
+//       .then(function (pdfData) {
+//         // Texto extraído del PDF
+//         let text = pdfData.text;
+//         // console.log("Texto extraído:", text);
+
+//         // Limpiar el texto
+//         text = limpiarTexto(text);
+
+//         // Convertir texto a audio utilizando say
+//         say.speak(text, null, 1, (err) => {
+//           if (err) {
+//             console.error("Error al convertir texto a audio:", err);
+//             res.status(500).send("Error al convertir texto a audio");
+//             return;
+//           }
+//           console.log("¡Texto convertido a audio con éxito!");
+
+//           // Enviar una respuesta de éxito
+//           res.send("¡Texto convertido a audio con éxito!");
+//         });
+//       })
+//       .catch(function (error) {
+//         console.error("Error al extraer texto:", error);
+//         res.status(500).send("Error al extraer texto del archivo");
+//       });
+//   });
+// });
+
+// app.listen(PORT, () => {
+//   console.log(`Servidor escuchando en el puerto ${PORT}`);
+// });
+
+// ENVIANDO SOLO EL TEXTO
+const express = require("express");
+const multer = require("multer");
+const pdfParse = require("pdf-parse");
+const fs = require("fs");
+const cors = require("cors");
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+const upload = multer({ dest: "uploads/" });
+
+app.use(express.json());
+app.use(
+  cors({
+    origin: "http://localhost:8080",
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
+// Función para limpiar el texto
+function limpiarTexto(texto) {
+  // Reemplazar caracteres especiales con sus equivalentes en español
+  texto = texto.replace(/á/g, "a");
+  texto = texto.replace(/é/g, "e");
+  texto = texto.replace(/í/g, "i");
+  texto = texto.replace(/ó/g, "o");
+  texto = texto.replace(/ú/g, "u");
+  texto = texto.replace(/ñ/g, "ni");
+
+  return texto;
+}
+
+// Endpoint 
+app.post("/text2audio", upload.single("archivo"), (req, res) => {
+  const filePath = req.file.path; // Ruta del archivo cargado
+  console.log("Archivo cargado:", filePath);
+
+  // Leer el archivo PDF y extraer texto
+  fs.readFile(filePath, (err, data) => {
+    if (err) {
+      console.error("Error al leer el archivo:", err);
+      res.status(500).send("Error al leer el archivo");
+      return;
+    }
+
+    pdfParse(data)
+      .then(function (pdfData) {
+        // Texto extraído del PDF
+        let text = pdfData.text;
+        // Limpiar el texto
+        text = limpiarTexto(text);
+
+        // Enviar el texto como respuesta 
+        res.send(text);
+      })
+      .catch(function (error) {
+        console.error("Error al extraer texto:", error);
+        res.status(500).send("Error al extraer texto del archivo");
+      });
+  });
+});
+
+app.listen(PORT, () => {
+  console.log(`Servidor escuchando en el puerto ${PORT}`);
+});
