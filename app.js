@@ -143,17 +143,21 @@ const PORT = process.env.PORT || 3000;
 const upload = multer({ dest: "uploads/" });
 
 app.use(express.json());
+// Permitir acceso local (cambiar por la url definitiva)
+app.use(
+  cors({
+    origin: "http://localhost:8080",
+  })
+);
 
 // Función para limpiar el texto
 function limpiarTexto(texto) {
-  // Reemplazar caracteres especiales con sus equivalentes en español
   texto = texto.replace(/á/g, "a");
   texto = texto.replace(/é/g, "e");
   texto = texto.replace(/í/g, "i");
   texto = texto.replace(/ó/g, "o");
   texto = texto.replace(/ú/g, "u");
   texto = texto.replace(/ñ/g, "ni");
-  // Otros reemplazos necesarios...
 
   return texto;
 }
