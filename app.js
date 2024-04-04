@@ -260,7 +260,7 @@ const upload = multer({ dest: "uploads/" });
 app.use(express.json());
 app.use(
   cors({
-    origin: "http://localhost:8080",
+    origin: "https://pdf2audioconverter.netlify.app",
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
